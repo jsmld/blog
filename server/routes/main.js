@@ -79,6 +79,38 @@ router.get('/post/:id', async (req, res) => {
 
 });
 
+/**
+ * GET /
+ * Post searchTerm
+*/
+
+router.post('/search', async (req, res) => {
+  try {
+    const locals = {
+      title: "Search",
+      description: "A blog where I share my learnings"
+    };
+
+    let searchTerm = req.body.searchTerm;
+    const searchNoSpeacialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    const data = await Post.find({
+      $or: [
+        { title: {$regex: new RegExp(searchNoSpeacialChar, 'i') }},
+        { body: {$regex: new RegExp(searchNoSpeacialChar, 'i') }}
+      ]
+    });
+
+    res.render("search", {
+      data,
+      locals
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
 
 
 router.get('/about', (req, res) => {
