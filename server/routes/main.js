@@ -29,7 +29,8 @@ router.get('/', async (req, res) => {
       locals,
       data,
       current: page,
-      nextPage: hasNextPage ? nextPage : null
+      nextPage: hasNextPage ? nextPage : null,
+      currentRoute: '/'
     });
   } catch (error) {
     console.log(error);
@@ -72,7 +73,7 @@ router.get('/post/:id', async (req, res) => {
     let slug = req.params.id;
 
     const data = await Post.findById({ _id: slug });
-    res.render('post', { locals, data });
+    res.render('post', { locals, data, currentRoute: `/post/${slug}` });
   } catch (error) {
     console.log(error);
   }
@@ -114,7 +115,38 @@ router.post('/search', async (req, res) => {
 
 
 router.get('/about', (req, res) => {
-  res.render('about');
+  res.render('about', { currentRoute: '/about'});
 });
+
+
+
+
+
+// function insertPostData () {
+//   Post.insertMany([
+//     {
+//       title: 'Building a blog 1',
+//       body: 'This is the body text of the blog post'
+//     },
+//     {
+//       title: 'Building a blog 2',
+//       body: 'This is the body text of the blog post'
+//     },
+//     {
+//       title: 'Building a blog 3',
+//       body: 'This is the body text of the blog post'
+//     },
+//     {
+//       title: 'Building a blog 4',
+//       body: 'This is the body text of the blog post'
+//     },
+//     {
+//       title: 'Building a blog 5',
+//       body: 'This is the body text of the blog post'
+//     }
+//   ])
+// };
+
+// insertPostData();
 
 module.exports = router;

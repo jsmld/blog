@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+
+// This stops my request to the db timing out
+// mongoose.set('bufferTimeoutMS', 20000);
+
 const connectDB = async () => {
   try {
     mongoose.set('strictQuery', false);
